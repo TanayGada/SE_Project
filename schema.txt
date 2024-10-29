@@ -1,0 +1,84 @@
+
+1. Users Table
+
+	•	user_id (PK): Unique identifier for each user.
+	•	role: Defines the user role (applicant, interviewer, admin).
+	•	name: Full name of the user.
+	•	email: Email address.
+	•	password_hash: Hashed password.
+	•	profile_pic: Profile picture URL.
+	•	created_at: Date the account was created.
+	•	updated_at: Date of last update.
+
+2. Applicants Table
+
+	•	applicant_id (PK, FK): References user_id in Users.
+	•	resume_url: URL of the resume.
+	•	status: Current application status (e.g., interviewing, hired, rejected).
+	•	notes: Applicant’s personal notes.
+
+3. Interviewers Table
+
+	•	interviewer_id (PK, FK): References user_id in Users.
+	•	specialization: Field of expertise.
+	•	availability_schedule: JSON object with available times.
+
+4. Interviews Table
+
+	•	interview_id (PK): Unique identifier.
+	•	applicant_id (FK): References applicant_id in Applicants.
+	•	interviewer_id (FK): References interviewer_id in Interviewers.
+	•	scheduled_at: Date and time of the interview.
+	•	status: Status of the interview (scheduled, completed, canceled).
+	•	feedback_given: Boolean indicating if feedback has been provided.
+
+5. Questions Table
+
+	•	question_id (PK): Unique identifier for each question.
+	•	question_text: Text of the question.
+	•	difficulty_level: Difficulty of the question (easy, medium, hard).
+	•	category: Category (e.g., technical, behavioral).
+	•	is_active: Boolean to indicate if the question is available.
+
+6. Interview_Questions Table (Junction Table)
+
+	•	interview_id (FK): References interview_id in Interviews.
+	•	question_id (FK): References question_id in Questions.
+	•	response_text: Response given by the applicant.
+	•	score: Numeric score assigned to the response.
+
+7. Feedback Table
+
+	•	feedback_id (PK): Unique identifier.
+	•	interview_id (FK): References interview_id in Interviews.
+	•	interviewer_id (FK): References interviewer_id in Interviewers.
+	•	strengths: Text summarizing applicant strengths.
+	•	weaknesses: Text summarizing areas for improvement.
+	•	recommendation: Recommendation from the interviewer.
+	•	created_at: Date of feedback entry.
+
+8. Mock_Interviews Table
+
+	•	mock_interview_id (PK): Unique identifier.
+	•	applicant_id (FK): References applicant_id in Applicants.
+	•	scheduled_at: Date and time of the mock interview.
+	•	performance_summary: Text summary of mock interview performance.
+
+9. Performance Metrics Table
+
+	•	metric_id (PK): Unique identifier.
+	•	applicant_id (FK): References applicant_id in Applicants.
+	•	category: Category of performance (e.g., technical, communication).
+	•	score: Score for the category.
+	•	interview_date: Date when the performance was recorded.
+
+
+Schema Relationships
+
+	•	One-to-Many:
+	•	Users to Applicants (one user can be an applicant).
+	•	Users to Interviewers (one user can be an interviewer).
+	•	Interviews to Interview_Questions (one interview can have many questions).
+	•	Interviews to Feedback (one interview can have one feedback entry).
+	•	Many-to-Many:
+	•	Interviews and Questions via Interview_Questions (each interview can have multiple questions, and each question can be used in multiple interviews).

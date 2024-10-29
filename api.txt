@@ -1,0 +1,54 @@
+
+1. User Management APIs
+
+	•	POST /api/users/register: Register a new user (applicant/interviewer/admin).
+	•	POST /api/users/login: Authenticate a user and issue a token.
+	•	GET /api/users/profile: Get the authenticated user’s profile details.
+	•	PUT /api/users/profile: Update the authenticated user’s profile.
+	•	DELETE /api/users/:userId: Delete a user account.
+
+2. Applicant and Interviewer Management APIs
+
+	•	GET /api/applicants/:applicantId: Retrieve details for a specific applicant.
+	•	GET /api/interviewers/:interviewerId: Retrieve details for a specific interviewer.
+	•	PUT /api/applicants/:applicantId: Update applicant-specific information, such as resume.
+	•	PUT /api/interviewers/:interviewerId: Update interviewer-specific details, such as specialization and availability.
+
+3. Interview Scheduling APIs
+
+	•	POST /api/interviews/schedule: Schedule a new interview with details like date, applicant, and interviewer.
+	•	GET /api/interviews/:interviewId: Retrieve details for a specific interview.
+	•	PUT /api/interviews/:interviewId: Update an interview’s details, such as rescheduling.
+	•	DELETE /api/interviews/:interviewId: Cancel an interview.
+	•	GET /api/interviews/applicant/:applicantId: Get a list of all interviews for a specific applicant.
+	•	GET /api/interviews/interviewer/:interviewerId: Get a list of all interviews for a specific interviewer.
+
+4. Question Management APIs
+
+	•	POST /api/questions: Add a new question to the question bank.
+	•	GET /api/questions: Retrieve a list of questions, with optional filtering by difficulty or category.
+	•	GET /api/questions/:questionId: Retrieve details for a specific question.
+	•	PUT /api/questions/:questionId: Update a question’s text or category.
+	•	DELETE /api/questions/:questionId: Delete a question from the bank.
+
+5. Interview Question and Response APIs
+
+	•	POST /api/interviews/:interviewId/questions: Assign questions to an interview session.
+	•	POST /api/interviews/:interviewId/questions/:questionId/response: Submit a response to a specific question in an interview.
+	•	GET /api/interviews/:interviewId/questions: Retrieve all questions assigned to an interview.
+	•	GET /api/interviews/:interviewId/questions/:questionId: Retrieve the response for a specific question by an applicant.
+
+6. Feedback and Review APIs
+
+	•	POST /api/feedback: Submit feedback for an interview, including ratings, strengths, and areas for improvement.
+	•	GET /api/feedback/:interviewId: Retrieve feedback for a specific interview.
+	•	PUT /api/feedback/:feedbackId: Update feedback details.
+	•	DELETE /api/feedback/:feedbackId: Delete feedback for a specific interview.
+
+7. Mock Interview and Performance APIs
+
+	•	POST /api/mock-interviews: Schedule a mock interview for an applicant.
+	•	GET /api/mock-interviews/:mockInterviewId: Retrieve details for a specific mock interview.
+	•	POST /api/performance: Submit performance metrics for an applicant.
+	•	GET /api/performance/applicant/:applicantId: Get performance metrics for a specific applicant.
+
