@@ -1,27 +1,27 @@
 
 1. User Management APIs
 
-	•	POST /api/users/register: Register a new user (applicant/interviewer/admin).
+	•	POST /api/users/register: Register a new user (applicant/recruiter/admin).
 	•	POST /api/users/login: Authenticate a user and issue a token.
 	•	GET /api/users/profile: Get the authenticated user’s profile details.
 	•	PUT /api/users/profile: Update the authenticated user’s profile.
 	•	DELETE /api/users/:userId: Delete a user account.
 
-2. Applicant and Interviewer Management APIs
+2. Applicant and recruiter Management APIs
 
 	•	GET /api/applicants/:applicantId: Retrieve details for a specific applicant.
-	•	GET /api/interviewers/:interviewerId: Retrieve details for a specific interviewer.
+	•	GET /api/recruiters/:recruiterId: Retrieve details for a specific recruiter.
 	•	PUT /api/applicants/:applicantId: Update applicant-specific information, such as resume.
-	•	PUT /api/interviewers/:interviewerId: Update interviewer-specific details, such as specialization and availability.
+	•	PUT /api/recruiters/:recruiterId: Update recruiter-specific details, such as specialization and availability.
 
 3. Interview Scheduling APIs
 
-	•	POST /api/interviews/schedule: Schedule a new interview with details like date, applicant, and interviewer.
+	•	POST /api/interviews/schedule: Schedule a new interview with details like date, applicant, and recruiter.
 	•	GET /api/interviews/:interviewId: Retrieve details for a specific interview.
 	•	PUT /api/interviews/:interviewId: Update an interview’s details, such as rescheduling.
 	•	DELETE /api/interviews/:interviewId: Cancel an interview.
 	•	GET /api/interviews/applicant/:applicantId: Get a list of all interviews for a specific applicant.
-	•	GET /api/interviews/interviewer/:interviewerId: Get a list of all interviews for a specific interviewer.
+	•	GET /api/interviews/recruiter/:recruiterId: Get a list of all interviews for a specific recruiter.
 
 4. Question Management APIs
 

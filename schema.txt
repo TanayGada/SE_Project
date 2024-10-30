@@ -2,7 +2,7 @@
 1. Users Table
 
 	•	user_id (PK): Unique identifier for each user.
-	•	role: Defines the user role (applicant, interviewer, admin).
+	•	role: Defines the user role (applicant, recruiter, admin).
 	•	name: Full name of the user.
 	•	email: Email address.
 	•	password_hash: Hashed password.
@@ -17,9 +17,9 @@
 	•	status: Current application status (e.g., interviewing, hired, rejected).
 	•	notes: Applicant’s personal notes.
 
-3. Interviewers Table
+3. recruiters Table
 
-	•	interviewer_id (PK, FK): References user_id in Users.
+	•	recruiter_id (PK, FK): References user_id in Users.
 	•	specialization: Field of expertise.
 	•	availability_schedule: JSON object with available times.
 
@@ -27,7 +27,7 @@
 
 	•	interview_id (PK): Unique identifier.
 	•	applicant_id (FK): References applicant_id in Applicants.
-	•	interviewer_id (FK): References interviewer_id in Interviewers.
+	•	recruiter_id (FK): References recruiter_id in recruiters.
 	•	scheduled_at: Date and time of the interview.
 	•	status: Status of the interview (scheduled, completed, canceled).
 	•	feedback_given: Boolean indicating if feedback has been provided.
@@ -51,10 +51,10 @@
 
 	•	feedback_id (PK): Unique identifier.
 	•	interview_id (FK): References interview_id in Interviews.
-	•	interviewer_id (FK): References interviewer_id in Interviewers.
+	•	recruiter_id (FK): References recruiter_id in recruiters.
 	•	strengths: Text summarizing applicant strengths.
 	•	weaknesses: Text summarizing areas for improvement.
-	•	recommendation: Recommendation from the interviewer.
+	•	recommendation: Recommendation from the recruiter.
 	•	created_at: Date of feedback entry.
 
 8. Mock_Interviews Table
@@ -77,7 +77,7 @@ Schema Relationships
 
 	•	One-to-Many:
 	•	Users to Applicants (one user can be an applicant).
-	•	Users to Interviewers (one user can be an interviewer).
+	•	Users to recruiters (one user can be an recruiter).
 	•	Interviews to Interview_Questions (one interview can have many questions).
 	•	Interviews to Feedback (one interview can have one feedback entry).
 	•	Many-to-Many:

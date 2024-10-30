@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
         >
           {/* Main layout structure */}
           <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-            <Header />  {/* Header component */}
+            
             {children}  {/* Render child components (page content) */}
             
           </div>

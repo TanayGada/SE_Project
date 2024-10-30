@@ -8,6 +8,7 @@ import { useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import { setUserRole } from "./_actions"; // Ensure this is the correct path
+import Header from "@/components/ui/header";
 
 export default function Home() {
   const { user, isSignedIn } = useUser();
@@ -30,9 +31,9 @@ export default function Home() {
         
         // Redirect user based on their role
         if (role === "applicant") {
-          router.push("/applicant/dashboard");
+          router.push("/applicant/upcoming-interviews");
         } else if (role === "recruiter") {
-          router.push("/recruiter/dashboard");
+          router.push("/recruiter/upcoming-interviews");
         }
       } else {
         console.log("No role found or user ID is undefined.");
@@ -42,6 +43,7 @@ export default function Home() {
 
   return (
     <>
+    <Header/>
       <Hero />
       <Features />
       <FeaturesBlocks />
