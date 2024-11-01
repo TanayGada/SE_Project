@@ -1,46 +1,37 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
-import Header from "@/components/ui/header"
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import AppSidebar  from "@/components/app-sidebar"
 
 const items = [
   {
-    title: "Upcoming Interviews",
-    url: "/recruiter/upcoming-interviews",
-    icon: "home",
+    label: "Upcoming Interviews",
+    route: "/recruiter/upcoming-interviews",
   },
   {
-    title: "Candidate List",
-    url: "/recruiter/candidate-list",
-    icon: "inbox",
+    label: "Past Interviews",
+    route: "/recruiter/past-interviews",
   },
   {
-    title: "Interview Templates",
-    url: "/recruiter/interview-templates",
-    icon: "calendar",
+    label: "Interview Templates",
+    route: "/recruiter/interview-templates",
   },
   {
-    title: "Interview Reports",
-    url: "/recruiter/interview-reports",
-    icon: "search",
+    label: "Interview Reports",
+    route: "/recruiter/interview-reports",
   },
   {
-    title: "Profile",
-    url: "/recruiter/profile",
-    icon: "settings",
+    label: "Profile",
+    route: "/recruiter/profile",
   },
 ];
 
 export default function Layout({ children }) {
   return (
-    <SidebarProvider>
-      <AppSidebar items={items} />
-      <main>
-        <SidebarTrigger />
-        <div className="flex flex-col h-screen ml-10">
-        {children}
-        </div>
-      </main>
-    </SidebarProvider>
-  )
+    <main className="relative bg-[#F3F4F6] ">
+      <div className="flex ">
+        <AppSidebar items={items} />
+        <section className="flex min-h-screen flex-1 flex-col px-6 pt-24 max-md:pb-0 sm:px-14">
+          <div className="w-full">{children}</div>
+        </section>
+      </div>
+    </main>
+  );
 }
