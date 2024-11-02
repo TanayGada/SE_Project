@@ -41,7 +41,7 @@ const ProfileComponent = ({
       data.append("clerkId", clerkId); // Use clerkId consistently
 
       const uploadRequest = await fetch("/api/files", {
-        method: "POST",
+        method: "PATCH",
         body: data,
       });
 
