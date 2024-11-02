@@ -61,13 +61,6 @@ const MeetingCard = ({
               }}
               className="bg-red-900 px-6"
             >
-              <Image
-                src="/icons/copy.svg"
-                alt="feature"
-                width={20}
-                height={20}
-              />
-              &nbsp; Copy Link
             </Button>
           </div>
         )}

@@ -5,7 +5,7 @@ import Header from "@/components/ui/header"
 import Banner from "@/components/banner"
 import { ClerkProvider } from "@clerk/nextjs"
 import "react-datepicker/dist/react-datepicker.css"
-
+import { Toaster } from "@/components/ui/toaster"
 
 
 
@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
           <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
             
             {children}  {/* Render child components (page content) */}
-            
+            <Toaster/>
           </div>
         </body>
       </html>

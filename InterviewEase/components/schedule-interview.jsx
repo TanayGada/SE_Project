@@ -5,16 +5,80 @@ import { Textarea } from "./ui/textarea";
 import ReactDatePicker from "react-datepicker";
 import axios from "axios";
 import { useUser } from "@clerk/nextjs";
+import { useStreamVideoClient } from "@stream-io/video-react-sdk";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+
 
 const ScheduleInterview = () => {
   const [modalState, setModalState] = useState(false);
   const [applicantEmail, setApplicantEmail] = useState("");
   const [dateTime, setDateTime] = useState(new Date());
   const { user } = useUser();
+  const router = useRouter();
+  const client = useStreamVideoClient();
+  const {toast} = useToast();
+  const [values, setValues] = useState({
+    dateTime: new Date(),
+    description:"",
+    link:""
+  })
+  const [callDetails, setCallDetails] = useState()
 
   // Function to create a meeting
   const createMeeting = async () => {
     try {
+      console.log("Creating Meeting");
+      // Step 0: Generate Meet Link
+      console.log("client", client);
+      console.log("user", user);
+
+      if(!client || !user) return;
+      try {
+        if(!values.dateTime){
+          toast({
+            title:"Please Select a Date and Time",
+          })
+        }
+        console.log("step 1");
+        const id = crypto.randomUUID();
+        const call = client.call("default", id);
+
+        if(!call) throw new Error("Failed to create call");
+        console.log("step 2");
+        console.log("call", call);
+        const startsAt = values.dateTime.toISOString() || new Date(Date.now()).toISOString();
+        const description = values.description || "Instant Interview";
+        
+        await call.getOrCreate({
+          data:{
+            starts_at: startsAt,
+            custom:{
+              description,
+            },
+          }
+        })
+        console.log("step 3");
+        setCallDetails(call);
+        console.log("call", call);
+        console.log("step4");
+        
+        if(!values.description){
+          router.push(`/meeting/${call.id}`);
+        }
+        toast({title:"Meeting Created"})
+        
+      } catch (error) {
+        console.error("Error generating meet link:", error);
+        toast({
+          title: "Error",
+          description: "Failed to generate meet link",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+
 
       // Step 1: Fetch Applicant ID based on the email
       console.log("applicantEmail", applicantEmail);
@@ -41,6 +105,8 @@ const ScheduleInterview = () => {
         meetLink: "https://meet.google.com/abc-def-ghi",
       };
 
+
+
       // Step 3: Save the interview data in the Interview collection
       await axios.post("/api/interviews", interviewData);
 
@@ -49,6 +115,8 @@ const ScheduleInterview = () => {
     } catch (error) {
       console.error("Error creating meeting:", error);
     }
+
+
   };
 
   return (
