@@ -14,11 +14,7 @@ const recruiterSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-  },
-  interviews: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Interview', // Reference to Interview collection
-  }],
+  }
 }, { timestamps: true });
 
 const Recruiter = mongoose.models.Recruiter || mongoose.model('Recruiter', recruiterSchema);

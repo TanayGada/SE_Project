@@ -1,19 +1,14 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 // Define the Interview Schema
 const interviewSchema = new mongoose.Schema({
-    jobId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Job', // Reference to the Job model
-        required: true,
-    },
-    applicantId: {
-        type: mongoose.Schema.Types.ObjectId,
+    applicantClerkId: {
+        type: String,
         ref: 'Applicant', // Reference to the Applicant model
         required: true,
     },
-    interviewerId: {
-        type: mongoose.Schema.Types.ObjectId,
+    recruiterClerkId: {
+        type: String,
         ref: 'Recruiter', // Reference to the Recruiter model
         required: true,
     },
@@ -25,10 +20,9 @@ const interviewSchema = new mongoose.Schema({
         type: String, // Could be in 24-hour format (HH:mm)
         required: true,
     },
-    status: {
+    meetLink: {
         type: String,
-        enum: ['Scheduled', 'In Progress', 'Completed', 'Cancelled'], // Define possible statuses
-        default: 'Scheduled',
+        required: true,
     },
     feedback: {
         type: String,
@@ -36,7 +30,7 @@ const interviewSchema = new mongoose.Schema({
     },
 });
 
-// Create the Interview model
-const Interview = mongoose.model('Interview', interviewSchema);
+// Create the Interview model, checking for existence to prevent overwriting
+const Interview = mongoose.models.Interview || mongoose.model('Interview', interviewSchema);
 
-module.exports = Interview;
+export default Interview;
