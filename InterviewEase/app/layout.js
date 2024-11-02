@@ -4,6 +4,10 @@ import { Inter } from "next/font/google"
 import Header from "@/components/ui/header"
 import Banner from "@/components/banner"
 import { ClerkProvider } from "@clerk/nextjs"
+import "react-datepicker/dist/react-datepicker.css"
+
+
+
 
 // Setting up the Inter font with specific subsets and display options
 const inter = Inter({
