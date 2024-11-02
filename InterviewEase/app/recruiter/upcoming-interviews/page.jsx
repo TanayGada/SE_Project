@@ -1,8 +1,9 @@
+import MeetiingTypeList from '@/components/MeetiingTypeList'
 import React from 'react'
 
 const UpcomingInterview = () => {
   return (
-    <div>UpcomingInterview</div>
+    <MeetiingTypeList/>
   )
 }
 

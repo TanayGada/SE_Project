@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { SignOutButton, SignedIn, useUser } from "@clerk/nextjs";
-import MobileMenu from "./ui/mobile-menu";
 import ScheduleInterview from "./schedule-interview";
 
 export default function DashboardHeader() {
@@ -28,10 +27,8 @@ export default function DashboardHeader() {
     >
       <div className="px-5 sm:px-6 max-w-full">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Site branding */}
-          {/* Desktop navigation */}
-          <nav className="hidden md:flex md:grow">
-            {/* Desktop sign in links */}
+          {/* Desktop navigation visible on all screens */}
+          <nav className="flex grow">
             <ul className="flex grow justify-end flex-wrap items-center">
               {role === "recruiter" && (
                 <li>
@@ -47,7 +44,6 @@ export default function DashboardHeader() {
               </li>
             </ul>
           </nav>
-          <MobileMenu />
         </div>
       </div>
     </header>
