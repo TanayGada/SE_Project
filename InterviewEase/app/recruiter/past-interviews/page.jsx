@@ -1,8 +1,11 @@
+import CallList from '@/components/CallList'
 import React from 'react'
 
 const PastInterviews = () => {
   return (
-    <div>PastInterviews</div>
+    <section className="flex size-full flex-col gap-10 text-white">
+      <CallList type="ended" />
+    </section>
   )
 }
 

@@ -61,16 +61,19 @@ const CallList = ({ type }) => {
 
     const filteredCalls = useMemo(() => {
         const now = new Date();
-        switch (type) {
-            case 'upcoming':
-                return calls.filter((interview) => new Date(interview.interviewDateTime) > now);
-            case 'ended':
-                return calls.filter((interview) => new Date(interview.interviewDateTime) <= now);
-            case 'recordings':
-                return calls.filter((interview) => interview.callRecordings?.length > 0);
-            default:
-                return [];
-        }
+        return calls.filter(interview => {
+            const interviewDate = new Date(interview.interviewDateTime); // Ensure it's a Date object
+            switch (type) {
+                case 'upcoming':
+                    return interviewDate > now; // Upcoming meetings
+                case 'ended':
+                    return interviewDate <= now; // Ended meetings
+                case 'recordings':
+                    return interview.callRecordings?.length > 0; // Meetings with recordings
+                default:
+                    return false;
+            }
+        });
     }, [calls, type]);
 
     const noCallsMessage = {
@@ -79,15 +82,13 @@ const CallList = ({ type }) => {
         recordings: 'No call recordings',
     }[type] || 'No calls found';
 
-
-
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
     return (
         <div className="grid grid-cols gap-5 xl:grid-cols-2">
-            {calls.length > 0 ? (
-                calls.map((meeting) => (
+            {filteredCalls.length > 0 ? ( // Use filteredCalls instead of calls
+                filteredCalls.map((meeting) => (
                     <MeetingCard
                         key={meeting._id}
                         title={`Meeting with ${applicants[meeting.applicantClerkId]?.name || "Unknown"}`} // Use applicant name or default
