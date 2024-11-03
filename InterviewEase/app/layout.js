@@ -27,22 +27,22 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     // Wrap the entire application with ClerkProvider
-    <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-    >
-      <StreamVideoProvider>
-        <html lang="en">
-          <body
-            className={`${inter.variable} font-inter antialiased bg-white text-gray-900 tracking-tight`}
-          >
-            {/* Main layout structure */}
+    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+      <html lang="en">
+        <head>
+          <title>{metadata.title}</title>
+          <meta name="description" content={metadata.description} />
+        </head>
+        <body className={`${inter.variable} font-inter antialiased bg-white text-gray-900 tracking-tight`}>
+          {/* Wrap content inside the StreamVideoProvider */}
+          <StreamVideoProvider>
             <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
               {children} {/* Render child components (page content) */}
               <Toaster />
             </div>
-          </body>
-        </html>
-      </StreamVideoProvider>
+          </StreamVideoProvider>
+        </body>
+      </html>
     </ClerkProvider>
   );
 }

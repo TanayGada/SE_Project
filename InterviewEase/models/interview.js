@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// Define the Interview Schema
+// Define the Interview Schema with combined interviewDateTime
 const interviewSchema = new mongoose.Schema({
     applicantClerkId: {
         type: String,
@@ -12,12 +12,8 @@ const interviewSchema = new mongoose.Schema({
         ref: 'Recruiter', // Reference to the Recruiter model
         required: true,
     },
-    interviewDate: {
-        type: Date,
-        required: true,
-    },
-    interviewTime: {
-        type: String, // Could be in 24-hour format (HH:mm)
+    interviewDateTime: {
+        type: Date, // Stores both date and time in a single field
         required: true,
     },
     meetLink: {
@@ -26,7 +22,7 @@ const interviewSchema = new mongoose.Schema({
     },
     feedback: {
         type: String,
-        required: false, // Feedback can be optional at the time of creating the interview
+        required: false, // Feedback is optional at the time of interview creation
     },
 });
 

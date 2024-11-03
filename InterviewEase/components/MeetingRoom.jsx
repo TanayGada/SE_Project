@@ -7,6 +7,7 @@ import {
   CallStatsButton,
   PaginatedGridLayout,
   SpeakerLayout,
+  useCallStateHooks,
 } from "@stream-io/video-react-sdk";
 import React, { useState } from "react";
 import {
@@ -23,7 +24,7 @@ import Loader from "./Loader";
 
 const MeetingRoom = () => {
   const [layout, setLayout] = useState("speaker-left");
-  const {useCallCallingState} = useCallCallingState();
+  const {useCallCallingState} = useCallStateHooks()
   const callingState = useCallCallingState();
 
   if(callingState !== CallingState.JOINED)  return <Loader/>;

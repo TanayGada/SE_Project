@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import MeetingModal from "./MeetingModal";
 import { Textarea } from "./ui/textarea";
@@ -9,7 +8,6 @@ import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
-
 const ScheduleInterview = () => {
   const [modalState, setModalState] = useState(false);
   const [applicantEmail, setApplicantEmail] = useState("");
@@ -17,107 +15,67 @@ const ScheduleInterview = () => {
   const { user } = useUser();
   const router = useRouter();
   const client = useStreamVideoClient();
-  const {toast} = useToast();
+  const { toast } = useToast();
   const [values, setValues] = useState({
     dateTime: new Date(),
-    description:"",
-    link:""
-  })
-  const [callDetails, setCallDetails] = useState()
+    description: "",
+    link: "",
+  });
+  const [callDetails, setCallDetails] = useState();
 
-  // Function to create a meeting
   const createMeeting = async () => {
     try {
-      console.log("Creating Meeting");
-      // Step 0: Generate Meet Link
-      console.log("client", client);
-      console.log("user", user);
-
-      if(!client || !user) return;
-      try {
-        if(!values.dateTime){
-          toast({
-            title:"Please Select a Date and Time",
-          })
+        // Check if client and user exist
+        if (!client || !user) return;
+        if (!values.dateTime) {
+            toast({ title: "Please Select a Date and Time" });
+            return;
         }
-        console.log("step 1");
+
+        // Step 1: Generate Meet Link
         const id = crypto.randomUUID();
         const call = client.call("default", id);
+        if (!call) throw new Error("Failed to create call");
 
-        if(!call) throw new Error("Failed to create call");
-        console.log("step 2");
-        console.log("call", call);
-        const startsAt = values.dateTime.toISOString() || new Date(Date.now()).toISOString();
+        const startsAt = values.dateTime.toISOString();
         const description = values.description || "Instant Interview";
-        
+
         await call.getOrCreate({
-          data:{
-            starts_at: startsAt,
-            custom:{
-              description,
-            },
-          }
-        })
-        console.log("step 3");
-        setCallDetails(call);
-        console.log("call", call);
-        console.log("step4");
-        
-        if(!values.description){
-          router.push(`/meeting/${call.id}`);
-        }
-        toast({title:"Meeting Created"})
-        
-      } catch (error) {
-        console.error("Error generating meet link:", error);
-        toast({
-          title: "Error",
-          description: "Failed to generate meet link",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
+            data: { starts_at: startsAt, custom: { description } },
         });
-      }
 
+        // Construct meet link
+        const meetLink = `/meeting/${call.id}`;
 
-      // Step 1: Fetch Applicant ID based on the email
-      console.log("applicantEmail", applicantEmail);
-      const applicantResponse = await axios.get(
-        `/api/users/applicant/getApplicantByEmailId/${applicantEmail}`
-      );
-      console.log("applicantResponse", applicantResponse);
-      const applicant = applicantResponse.data;
-      if (!applicant) {
-        console.error("Applicant not found.");
-        return;
-      }
+        setCallDetails(call);
+        setModalState(false);
+        toast({ title: "Meeting Created" });
 
+        // Step 2: Fetch Applicant ID based on the email
+        const applicantResponse = await axios.get(
+            `/api/users/applicant/getApplicantByEmailId/${applicantEmail}`
+        );
+        const applicant = applicantResponse.data;
+        if (!applicant) {
+            console.error("Applicant not found.");
+            return;
+        }
 
-      // Step 2: Prepare interview data
-      const interviewData = {
-        applicantClerkId: applicant.applicant.clerkId,
-        recruiterClerkId: user.id,
-        interviewDate: dateTime,
-        interviewTime: dateTime.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        meetLink: "https://meet.google.com/abc-def-ghi",
-      };
+        // Step 3: Prepare interview data with combined dateTime and meetLink
+        const interviewData = {
+            applicantClerkId: applicant.applicant.clerkId,
+            recruiterClerkId: user.id,
+            interviewDateTime: dateTime.toISOString(), // Store as ISO string
+            meetLink: meetLink, // Store the generated meet link
+        };
 
-
-
-      // Step 3: Save the interview data in the Interview collection
-      await axios.post("/api/interviews", interviewData);
-
-      console.log("Meeting Created");
-      setModalState(false); // Close the modal after creation
+        // Step 4: Save the interview data in the Interview collection
+        await axios.post("/api/interviews", interviewData);
+        
     } catch (error) {
-      console.error("Error creating meeting:", error);
+        console.error("Error creating meeting:", error);
     }
-
-
-  };
+};
 
   return (
     <>
@@ -135,7 +93,6 @@ const ScheduleInterview = () => {
         buttonText="Schedule Interview"
         handleClick={createMeeting}
       >
-        {/* Applicant Email Input */}
         <div className="flex flex-col gap-2.5">
           <label className="text-base text-normal leading-[22px] text-sky-300">
             Enter Email Id
@@ -146,7 +103,6 @@ const ScheduleInterview = () => {
           />
         </div>
 
-        {/* Date and Time Picker */}
         <div className="flex w-full flex-col gap-2.5">
           <label className="text-base text-normal leading-[22px] text-sky-300">
             Select Date and Time

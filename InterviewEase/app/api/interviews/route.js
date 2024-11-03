@@ -8,11 +8,11 @@ export async function POST(req) {
   try {
     await connectDb();
     // Parse request data from the client
-    const { applicantClerkId, recruiterClerkId, interviewDate, interviewTime, meetLink } = await req.json();
+    const { applicantClerkId, recruiterClerkId, interviewDateTime, meetLink } = await req.json();
 
 
     // Validation: Ensure all necessary data is present
-    if (!applicantClerkId || !recruiterClerkId || !interviewDate || !interviewTime || !meetLink) {
+    if (!applicantClerkId || !recruiterClerkId || !interviewDateTime || !meetLink) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }
@@ -23,8 +23,7 @@ export async function POST(req) {
     const newInterview = new Interview({
       applicantClerkId,
       recruiterClerkId,
-      interviewDate,
-      interviewTime,
+      interviewDateTime,
       meetLink
     });
 
