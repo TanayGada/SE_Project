@@ -1,4 +1,4 @@
-import CallList from "@/components/recruiter/CallList";
+import CallList from "@/components/applicant/CallList";
 import React from "react";
 
 const PastInterviews = () => {

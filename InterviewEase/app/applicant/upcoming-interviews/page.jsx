@@ -1,8 +1,11 @@
+import CallList from '@/components/applicant/CallList'
 import React from 'react'
 
 const UpcomingInterview = () => {
   return (
-    <div>UpcomingInterview</div>
+    <section className="flex size-full flex-col gap-10 text-white">
+      <CallList type="upcoming" />
+    </section>
   )
 }
 

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 const MeetingCard = ({
   title,
@@ -40,12 +40,12 @@ const MeetingCard = ({
             <>
               <Button
                 onClick={() => {
-                  // Handle feedback button action
-                  console.log("Feedback button clicked");
+                  // Handle Report button action
+                  console.log("Report button clicked");
                 }}
                 className="bg-green-500 px-6"
               >
-                Feedback
+                Report
               </Button>
               <Button
                 onClick={() => {
@@ -57,7 +57,7 @@ const MeetingCard = ({
                 View Recording
               </Button>
               <Button
-                onClick={() => window.open(link, '_blank')}
+                onClick={() => window.open(link, "_blank")}
                 className="bg-blue-500 px-6"
               >
                 Meet Link
@@ -66,14 +66,22 @@ const MeetingCard = ({
           ) : (
             // Buttons for current meetings
             <>
-              <Button onClick={handleClick} className="rounded bg-blue-500 px-6">
+              <Button
+                onClick={handleClick}
+                className="rounded bg-blue-500 px-6"
+              >
                 {buttonIcon1 && (
-                  <Image src={buttonIcon1} alt="feature" width={20} height={20} />
+                  <Image
+                    src={buttonIcon1}
+                    alt="feature"
+                    width={20}
+                    height={20}
+                  />
                 )}
                 &nbsp; {buttonText}
               </Button>
               <Button
-                onClick={() => window.open(resumeLink, '_blank')}
+                onClick={() => window.open(resumeLink, "_blank")}
                 className="bg-red-900 px-6"
                 disabled={!resumeLink} // Disable if no resumeLink is provided
               >
@@ -86,7 +94,7 @@ const MeetingCard = ({
                 }}
                 className="bg-purple-500 px-6"
               >
-                Interview Template 
+                Interview Template
               </Button>
             </>
           )}

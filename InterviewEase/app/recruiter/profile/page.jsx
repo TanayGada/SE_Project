@@ -1,28 +1,28 @@
 "use client";
-import ProfileCard from '@/components/recruiter-profile-card';
-import { useUser } from '@clerk/nextjs';
-import React, { useEffect, useState } from 'react';
+import ProfileCard from "@/components/recruiter/recruiter-profile-card";
+import { useUser } from "@clerk/nextjs";
+import React, { useEffect, useState } from "react";
 
 const Profile = () => {
   const { user, isLoaded, isSignedIn } = useUser();
   const clerkId = user?.id; // clerkId may be undefined initially
-    console.log("user", user?.id)
-    console.log("isLoaded", isLoaded)
-    console.log("isSignedIn", isSignedIn)
+  console.log("user", user?.id);
+  console.log("isLoaded", isLoaded);
+  console.log("isSignedIn", isSignedIn);
 
   // Show a loading state while Clerk is fetching user data
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
 
-    console.log("step1")
+  console.log("step1");
 
   // If the user is not signed in, prompt them to sign in
   if (!isSignedIn) {
     return <div>Please sign in to view your profile.</div>;
   }
 
-    console.log("step2")
+  console.log("step2");
   // Extract user details, with fallbacks for missing data
   const userDetails = {
     name: user?.fullName || "John Doe",
@@ -31,11 +31,11 @@ const Profile = () => {
     profileImage: user?.imageUrl || "https://picsum.photos/200",
   };
 
-  console.log("userDetails", userDetails) 
+  console.log("userDetails", userDetails);
 
   return (
     <div className="flex min-h-screen items-start justify-center">
-      <ProfileCard 
+      <ProfileCard
         clerkId={clerkId}
         name={userDetails.name}
         email={userDetails.email}
@@ -45,6 +45,5 @@ const Profile = () => {
     </div>
   );
 };
-
 
 export default Profile;

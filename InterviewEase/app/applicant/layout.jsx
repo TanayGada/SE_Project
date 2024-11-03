@@ -7,6 +7,10 @@ const items = [
     route: "/applicant/upcoming-interviews",
   },
   {
+    label: "Past Interviews",
+    route: "/applicant/past-interviews",
+  },
+  {
     label: "Interview Preparation",
     route: "/applicant/interview-preparation",
   },
@@ -14,10 +18,7 @@ const items = [
     label: "Mock Interview",
     route: "/applicant/mock-interview",
   },
-  {
-    label: "Track Performance",
-    route: "/applicant/track-performance",
-  },
+  
   {
     label: "Profile",
     route: "/applicant/profile",

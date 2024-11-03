@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MeetingModal from "./MeetingModal";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "../ui/textarea";
 import ReactDatePicker from "react-datepicker";
 import axios from "axios";
 import { useUser } from "@clerk/nextjs";
@@ -25,57 +25,56 @@ const ScheduleInterview = () => {
 
   const createMeeting = async () => {
     try {
-        // Check if client and user exist
-        if (!client || !user) return;
-        if (!values.dateTime) {
-            toast({ title: "Please Select a Date and Time" });
-            return;
-        }
+      // Check if client and user exist
+      if (!client || !user) return;
+      if (!values.dateTime) {
+        toast({ title: "Please Select a Date and Time" });
+        return;
+      }
 
-        // Step 1: Generate Meet Link
-        const id = crypto.randomUUID();
-        const call = client.call("default", id);
-        if (!call) throw new Error("Failed to create call");
+      // Step 1: Generate Meet Link
+      const id = crypto.randomUUID();
+      const call = client.call("default", id);
+      if (!call) throw new Error("Failed to create call");
 
-        const startsAt = values.dateTime.toISOString();
-        const description = values.description || "Instant Interview";
+      const startsAt = values.dateTime.toISOString();
+      const description = values.description || "Instant Interview";
 
-        await call.getOrCreate({
-            data: { starts_at: startsAt, custom: { description } },
-        });
+      await call.getOrCreate({
+        data: { starts_at: startsAt, custom: { description } },
+      });
 
-        // Construct meet link
-        const meetLink = `/meeting/${call.id}`;
+      // Construct meet link
+      const meetLink = `/meeting/${call.id}`;
 
-        setCallDetails(call);
-        setModalState(false);
-        toast({ title: "Meeting Created" });
+      setCallDetails(call);
+      setModalState(false);
+      toast({ title: "Meeting Created" });
 
-        // Step 2: Fetch Applicant ID based on the email
-        const applicantResponse = await axios.get(
-            `/api/users/applicant/getApplicantByEmailId/${applicantEmail}`
-        );
-        const applicant = applicantResponse.data;
-        if (!applicant) {
-            console.error("Applicant not found.");
-            return;
-        }
+      // Step 2: Fetch Applicant ID based on the email
+      const applicantResponse = await axios.get(
+        `/api/users/applicant/getApplicantByEmailId/${applicantEmail}`
+      );
+      const applicant = applicantResponse.data;
+      if (!applicant) {
+        console.error("Applicant not found.");
+        return;
+      }
 
-        // Step 3: Prepare interview data with combined dateTime and meetLink
-        const interviewData = {
-            applicantClerkId: applicant.applicant.clerkId,
-            recruiterClerkId: user.id,
-            interviewDateTime: dateTime.toISOString(), // Store as ISO string
-            meetLink: meetLink, // Store the generated meet link
-        };
+      // Step 3: Prepare interview data with combined dateTime and meetLink
+      const interviewData = {
+        applicantClerkId: applicant.applicant.clerkId,
+        recruiterClerkId: user.id,
+        interviewDateTime: dateTime.toISOString(), // Store as ISO string
+        meetLink: meetLink, // Store the generated meet link
+      };
 
-        // Step 4: Save the interview data in the Interview collection
-        await axios.post("/api/interviews", interviewData);
-        
+      // Step 4: Save the interview data in the Interview collection
+      await axios.post("/api/interviews", interviewData);
     } catch (error) {
-        console.error("Error creating meeting:", error);
+      console.error("Error creating meeting:", error);
     }
-};
+  };
 
   return (
     <>

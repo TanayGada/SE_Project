@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { SignOutButton, SignedIn, useUser } from "@clerk/nextjs";
-import ScheduleInterview from "./schedule-interview";
+import ScheduleInterview from "./recruiter/schedule-interview";
 
 export default function DashboardHeader() {
   const [top, setTop] = useState(true);

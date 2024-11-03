@@ -1,5 +1,5 @@
 "use client";
-import ProfileCard from '@/components/applicant-profile-card';
+import ProfileCard from '@/components/applicant/applicant-profile-card';
 import { useUser } from '@clerk/nextjs';
 import React, { useEffect, useState } from 'react';
 
