@@ -27,7 +27,7 @@ const items = [
 export default function Layout({ children }) {
   return (
     <main className="relative bg-[#F3F4F6] min-h-screen flex">
-      <StreamVideoProvider>
+      
       {/* Sidebar */}
       
       <AppSidebar items={items} />
@@ -42,7 +42,7 @@ export default function Layout({ children }) {
           <div className="w-full">{children}</div>
         </section>
       </div>
-      </StreamVideoProvider>
+      
     </main>
   );
 }
