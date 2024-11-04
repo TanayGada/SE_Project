@@ -1,5 +1,5 @@
 import { connectDb } from "@/lib/mongodb";
-import Interview from "@/models/interview";
+import Interview from "@/models/Interview";
 import { NextResponse } from "next/server";
 
 // create a new interview
