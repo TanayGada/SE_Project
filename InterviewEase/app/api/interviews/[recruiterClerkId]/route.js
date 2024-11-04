@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDb } from "@/lib/mongodb";
-import Interview from "@/models/Interview";
+import Interview from "@/models/interview";
 
 export async function GET(req, { params }) {
   const { recruiterClerkId } = params; // Extract recruiterClerkId from params
