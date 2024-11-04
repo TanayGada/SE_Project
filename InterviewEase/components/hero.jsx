@@ -1,33 +1,37 @@
 "use client";
 import VideoThumb from "@/public/images/hero-image.png";
 import ModalVideo from "@/components/modal-video";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SignedOut, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 export default function Hero() {
-  const user = useUser();
+  const { user, isLoaded } = useUser(); // Destructure isLoaded for checking loading state
   const router = useRouter();
 
   useEffect(() => {
-    if (user) {
-      const role = user.publicMetadata?.UserRole;
+    if (isLoaded && user) { // Ensure user is loaded and defined
+      const publicMetadata = user.publicMetadata || {}; // Fallback to an empty object
+      const role = publicMetadata.UserRole; // Access UserRole safely
+      console.log("publicMetadata", publicMetadata);
+      console.log("role", role);
+
+      // Navigate based on the user's role
       if (role === "applicant") {
-        router.push("/applicant/dashboard");
+        router.push("/applicant/upcoming-interviews");
       } else if (role === "recruiter") {
-        router.push("/recruiter/dashboard");
+        router.push("/recruiter/upcoming-interviews");
       }
     }
-  }, [user]);
+  }, [isLoaded, user, router]); // Added isLoaded to dependencies
 
   const handleSignUpClick = (role) => {
-    localStorage.setItem("userRole", role);
-    router.push("/sign-up");
+    localStorage.setItem("userRole", role); // Store user role in local storage
+    router.push("/sign-up"); // Redirect to sign-up page
   };
 
   return (
     <section className="relative">
-      {/* SVG and UI elements here */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="pt-32 pb-12 md:pt-40 md:pb-20">
           <div className="text-center pb-12 md:pb-16">
