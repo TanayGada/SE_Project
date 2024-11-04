@@ -6,11 +6,16 @@ export async function GET(req, { params }) {
     console.log("Received clerkId:", clerkId); // Log the received clerkId
 
     // Connect to the database
+    console.log("Connecting to the database...");
     const db = await connectDb();
+    console.log("Connected to the database");
 
     try {
+        const startTime = Date.now();
         // Fetch the applicant from the database
         const applicant = await db.collection("applicants").findOne({ clerkId });
+        const duration = Date.now() - startTime;
+        console.log(`Query time: ${duration}ms`);
 
         if (!applicant) {
             console.warn(`No applicant found with clerkId: ${clerkId}`);
@@ -20,7 +25,7 @@ export async function GET(req, { params }) {
         // Return the applicant data
         return new Response(JSON.stringify(applicant), { status: 200 });
     } catch (error) {
-        console.error("Error fetching applicant data:", error);
+        console.error("Error fetching applicant data:", error.message, error.stack);
         return new Response(JSON.stringify({ message: "Internal server error" }), { status: 500 });
     }
 }

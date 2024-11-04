@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import MeetingModal from "./MeetingModal";
 import { Textarea } from "../ui/textarea";
@@ -8,7 +9,7 @@ import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
-const ScheduleInterview = () => {
+const ScheduleInterview = ({ onSuccessfulSchedule }) => {
   const [modalState, setModalState] = useState(false);
   const [applicantEmail, setApplicantEmail] = useState("");
   const [dateTime, setDateTime] = useState(new Date());
@@ -71,7 +72,7 @@ const ScheduleInterview = () => {
 
       // Step 4: Save the interview data in the Interview collection
       await axios.post("/api/interviews", interviewData);
-      onSuccesfulSchedule();
+      onSuccessfulSchedule(); // Corrected function name
     } catch (error) {
       console.error("Error creating meeting:", error);
     }
