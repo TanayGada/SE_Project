@@ -71,6 +71,7 @@ const ScheduleInterview = () => {
 
       // Step 4: Save the interview data in the Interview collection
       await axios.post("/api/interviews", interviewData);
+      onSuccesfulSchedule();
     } catch (error) {
       console.error("Error creating meeting:", error);
     }

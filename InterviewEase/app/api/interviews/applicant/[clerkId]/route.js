@@ -1,5 +1,5 @@
 import { connectDb } from "@/lib/mongodb";
-import Interview from "@/models/Interview";
+import Interview from "@/models/interview";
 
 export async function GET(request, { params }) {
     const { clerkId } = params;

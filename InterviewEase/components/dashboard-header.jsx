@@ -1,14 +1,13 @@
-"use client";
+"use client"
 import { useState, useEffect } from "react";
 import { SignOutButton, SignedIn, useUser } from "@clerk/nextjs";
 import ScheduleInterview from "./recruiter/schedule-interview";
 
-export default function DashboardHeader() {
+export default function DashboardHeader({ triggerRefresh }) {
   const [top, setTop] = useState(true);
   const { user } = useUser();
   const role = user?.publicMetadata.UserRole;
 
-  // Detect whether user has scrolled the page down by 10px
   const scrollHandler = () => {
     window.pageYOffset > 10 ? setTop(false) : setTop(true);
   };
@@ -27,12 +26,11 @@ export default function DashboardHeader() {
     >
       <div className="px-5 sm:px-6 max-w-full">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Desktop navigation visible on all screens */}
           <nav className="flex grow">
             <ul className="flex grow justify-end flex-wrap items-center">
               {role === "recruiter" && (
                 <li>
-                  <ScheduleInterview />
+                  <ScheduleInterview onSuccessfulSchedule={triggerRefresh} />
                 </li>
               )}
               <li>
