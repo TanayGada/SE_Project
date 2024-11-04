@@ -7,6 +7,9 @@ export default function DashboardHeader({ triggerRefresh }) {
   const [top, setTop] = useState(true);
   const { user } = useUser();
   const role = user?.publicMetadata.UserRole;
+  console.log("user", user);  
+  console.log("role", role);
+  
 
   const scrollHandler = () => {
     window.pageYOffset > 10 ? setTop(false) : setTop(true);

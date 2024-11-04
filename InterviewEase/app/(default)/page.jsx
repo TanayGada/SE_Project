@@ -7,7 +7,7 @@ import Newsletter from "@/components/newsletter";
 import { useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
-import { setUserRole } from "./_actions"; // Ensure this is the correct path
+import { setUserRole } from "./_actions";
 import Header from "@/components/ui/header";
 
 export default function Home() {
