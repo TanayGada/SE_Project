@@ -16,6 +16,8 @@ const inter = Inter({
   display: "swap",
 });
 
+
+
 // Metadata for the page
 export const metadata = {
   title: "InterviewEase",

@@ -17,27 +17,20 @@ const CallList = ({ type }) => {
             if (!user) return;
 
             try {
-                console.log("step1")
                 setIsLoading(true);
                 // Fetch applicant details using the current user's Clerk ID
                 const applicantResponse = await fetch(`/api/users/applicant/${user.id}`);
-                console.log("step2")
                 if (!applicantResponse.ok) throw new Error("Failed to fetch applicant details");
-                console.log("step3")
 
                 const applicantData = await applicantResponse.json();
                 setApplicantDetails(applicantData); // Set applicant details
-                console.log("step4")
 
                 // Fetch interviews where applicantId equals current user's Clerk ID
                 const interviewsResponse = await fetch(`/api/interviews/applicant/${user.id}`);
                 if (!interviewsResponse.ok) throw new Error("Failed to fetch interviews");
-                console.log("step5")
 
                 const interviewsData = await interviewsResponse.json();
-                console.log("interviewsData",interviewsData)
                 setCalls(interviewsData); // Set interviews data
-                console.log("step6")
             } catch (err) {
                 setError(err.message || "Error fetching data");
                 console.error(err);
@@ -49,11 +42,9 @@ const CallList = ({ type }) => {
         fetchApplicantAndInterviews();
     }, [user]);
 
-    console.log(calls)
-
     const filteredCalls = useMemo(() => {
         const now = new Date();
-        return calls.filter(interview => {
+        let filtered = calls.filter(interview => {
             const interviewDate = new Date(interview.interviewDateTime); // Ensure it's a Date object
             switch (type) {
                 case 'upcoming':
@@ -66,6 +57,21 @@ const CallList = ({ type }) => {
                     return false;
             }
         });
+
+        // Sort the filtered calls by interviewDateTime (ascending)
+        if(type === 'upcoming'){
+        return filtered.sort((a, b) => {
+            const dateA = new Date(a.interviewDateTime);
+            const dateB = new Date(b.interviewDateTime);
+            return dateA - dateB; // Change to dateB - dateA for descending order
+        });}
+        else{
+            return filtered.sort((a, b) => {
+                const dateA = new Date(a.interviewDateTime);
+                const dateB = new Date(b.interviewDateTime);
+                return dateB - dateA; // Change to dateB - dateA for descending order
+            });
+        }
     }, [calls, type]);
 
     const noCallsMessage = {
@@ -76,7 +82,6 @@ const CallList = ({ type }) => {
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
-    console.log(filteredCalls)
 
     return (
         <div className="grid grid-cols gap-5 xl:grid-cols-2">

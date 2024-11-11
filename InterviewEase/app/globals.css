@@ -2,6 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+.str-video__video-placeholder {
+  background: #3C4043;
+  border-radius: inherit;
+}
+
+/* Global padding and responsive design for Meeting Setup page */
+@media (min-width: 768px) {
+  .str-video__video-preview-container {
+    width: 100%;
+    background: #3C4043;
+    max-width: 650px;
+    max-height: 500px;
+  }
+}
+
+@media (max-width: 640px) {
+  .str-video__video-preview-container {
+    max-width: 100%;
+    background: #3C4043;
+    padding: 10px;
+  }
+}
+
+/* Center and margin adjustments */
+.str-video__video-preview-responsive {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1024px) {
+  /* Align preview and controls for smaller screens */
+  .str-video__video-preview-container,
+  .meeting-setup-controls {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -103,3 +144,4 @@
     @apply bg-background text-foreground;
   }
 }
+

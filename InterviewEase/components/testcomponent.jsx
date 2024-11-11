@@ -20,25 +20,30 @@ import {
 import { LayoutList } from "lucide-react";
 import EndCallButton from "./EndCallButton";
 import Loader from "./Loader";
-import "@/app/globals.css";
-import MeetSidebar from "./recruiter/MeetSidebar";
-import { useRouter } from "next/navigation";
+
 
 const MeetingRoom = () => {
   const [layout, setLayout] = useState("speaker-left");
-  const router = useRouter();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
+  const call = useCall();
+  const { useLocalParticipant } = useCallStateHooks();
+  const localParticipant = useLocalParticipant();
+  const [isMeetingOwner, setIsMeetingOwner] = useState(false);
 
-  const isMeetingOwner = localStorage.getItem("isMeetingOwner");
-
-  if(callingState=="left" && isMeetingOwner=="false"){
-    router.push("/applicant/upcoming-interviews");
-  }
-
+  useEffect(() => {
+    if (
+      localParticipant &&
+      call?.state.createdBy &&
+      localParticipant.userId === call.state.createdBy.id
+    ) {
+      setIsMeetingOwner(true);
+    } else {
+      setIsMeetingOwner(false);
+    }
+  }, [localParticipant, call?.state.createdBy]); // Dependency array ensures this runs only when these values change
 
   if (callingState !== CallingState.JOINED) return <Loader />;
-
 
   const CallLayout = () => {
     switch (layout) {
@@ -57,8 +62,8 @@ const MeetingRoom = () => {
         {/* Main Call Layout */}
         <div
           className={`flex-grow ml-5 ${
-            isMeetingOwner=="false" ? "max-w-[1435px]" : "max-w-[1040px]"
-          }`}
+            !isMeetingOwner ? "max-w-[1435px]" : ""
+          }`} // Conditionally apply max-width if not meeting owner
         >
           <div className="flex size-full items-center">
             <CallLayout />
@@ -66,9 +71,9 @@ const MeetingRoom = () => {
         </div>
 
         {/* Conditionally render the Sidebar based on the meeting owner */}
-        {isMeetingOwner=="true" && (
+        {/* {isMeetingOwner && (
           <MeetSidebar/>
-        )}
+        )} */}
       </div>
 
       <div className="fixed bottom-0 flex w-full items-center justify-center gap-5 flex-wrap bg-[#202124]">

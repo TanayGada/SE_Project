@@ -61,7 +61,7 @@ const CallList = ({ type }) => {
 
     const filteredCalls = useMemo(() => {
         const now = new Date();
-        return calls.filter(interview => {
+        let filtered = calls.filter(interview => {
             const interviewDate = new Date(interview.interviewDateTime); // Ensure it's a Date object
             switch (type) {
                 case 'upcoming':
@@ -74,6 +74,14 @@ const CallList = ({ type }) => {
                     return false;
             }
         });
+
+        // Sort filtered calls by interviewDateTime (ascending)
+        return filtered.sort((a, b) => {
+            const dateA = new Date(a.interviewDateTime);
+            const dateB = new Date(b.interviewDateTime);
+            return dateA - dateB; // For descending, swap dateA and dateB
+        });
+
     }, [calls, type]);
 
     const noCallsMessage = {

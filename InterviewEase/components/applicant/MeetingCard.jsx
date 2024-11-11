@@ -13,6 +13,7 @@ const MeetingCard = ({
   link, // Link for the meeting
   resumeLink,
   buttonText,
+  isMeetingOwner
 }) => {
   console.log("title", title);
   console.log("date", date);

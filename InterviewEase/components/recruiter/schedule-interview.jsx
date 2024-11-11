@@ -9,7 +9,7 @@ import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
-const ScheduleInterview = ({ onSuccessfulSchedule }) => {
+const ScheduleInterview = () => {
   const [modalState, setModalState] = useState(false);
   const [applicantEmail, setApplicantEmail] = useState("");
   const [dateTime, setDateTime] = useState(new Date());
@@ -72,7 +72,7 @@ const ScheduleInterview = ({ onSuccessfulSchedule }) => {
 
       // Step 4: Save the interview data in the Interview collection
       await axios.post("/api/interviews", interviewData);
-      onSuccessfulSchedule(); // Corrected function name
+      router.push("/recruiter/upcoming-interviews");
     } catch (error) {
       console.error("Error creating meeting:", error);
     }
